@@ -28,11 +28,11 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-INTERNAL_IPS = get_list(os.environ.get('INTERNAL_IPS', '127.0.0.1'))
+INTERNAL_IPS = ['206.189.169.37', '127.0.0.1']
 
 # Some cloud providers like Heroku export REDIS_URL variable instead of CACHE_URL
-REDIS_URL = 'redis://0.0.0.0:6379/0'
-CACHE_URL='redis://0.0.0.0:6379/0'
+REDIS_URL = 'redis://206.189.169.37:6379/0'
+CACHE_URL='redis://206.189.169.37:6379/0'
 if REDIS_URL:
     CACHE_URL = os.environ.setdefault('CACHE_URL', REDIS_URL)
 CACHES = {'default': django_cache_url.config()}
@@ -427,7 +427,7 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, email'}
 
 # CELERY SETTINGS
-CELERY_BROKER_URL='redis://localhost:6379/1' or ''
+CELERY_BROKER_URL='amqp://' or ''
 CELERY_TASK_ALWAYS_EAGER = False if CELERY_BROKER_URL else True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
