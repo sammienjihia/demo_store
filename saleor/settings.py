@@ -322,7 +322,7 @@ bootstrap4 = {
 
 TEST_RUNNER = ''
 
-ALLOWED_HOSTS=['127.0.0.1', '206.189.169.37']
+ALLOWED_HOSTS=['127.0.0.1', '206.189.169.37', 'demo.pata-store.ml']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
