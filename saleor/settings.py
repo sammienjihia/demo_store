@@ -31,8 +31,8 @@ MANAGERS = ADMINS
 INTERNAL_IPS = ['206.189.169.37', '127.0.0.1']
 
 # Some cloud providers like Heroku export REDIS_URL variable instead of CACHE_URL
-REDIS_URL = 'redis://206.189.169.37:6379/0'
-CACHE_URL='redis://206.189.169.37:6379/0'
+REDIS_URL = 'redis://0.0.0.0:6379/0'
+CACHE_URL='redis://0.0.0.0:6379/0'
 if REDIS_URL:
     CACHE_URL = os.environ.setdefault('CACHE_URL', REDIS_URL)
 CACHES = {'default': django_cache_url.config()}
