@@ -1,6 +1,6 @@
 import ast
 import os.path
-
+from decouple import config,Csv
 import dj_database_url
 import dj_email_url
 import django_cache_url
@@ -13,7 +13,8 @@ def get_list(text):
     return [item.strip() for item in text.split(',')]
 
 
-DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'True'))
+#DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'True'))
+DEBUG = config('DEBUG',cast=bool)
 
 SITE_ID = 1
 
@@ -28,7 +29,8 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-INTERNAL_IPS = ['206.189.169.37', '127.0.0.1']
+#INTERNAL_IPS = ['206.189.169.37', '127.0.0.1']
+INTERNAL_IPS = config('INTERNAL_IPS',cast=Csv())
 
 # Some cloud providers like Heroku export REDIS_URL variable instead of CACHE_URL
 REDIS_URL = 'redis://0.0.0.0:6379/0'
@@ -76,8 +78,10 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 #EMAIL_URL='smtp://sammiemwangi59@gmail.com:saram2010@smtp.gmail.com:587/?tls=True'
 EMAIL_URL = os.environ.get('EMAIL_URL')
-SENDGRID_USERNAME = 'apikey'
-SENDGRID_PASSWORD = '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'
+#SENDGRID_USERNAME = 'apikey'
+SENDGRID_USERNAME = config('SENDGRID_USERNAME')
+#SENDGRID_PASSWORD = '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'
+SENDGRID_PASSWORD = config('SENDGRID_PASSWORD')
 if not EMAIL_URL and SENDGRID_USERNAME and SENDGRID_PASSWORD:
     EMAIL_URL = 'smtp://%s:%s@smtp.sendgrid.net:587/?tls=True' % (
         SENDGRID_USERNAME, SENDGRID_PASSWORD)
@@ -98,7 +102,8 @@ ENABLE_SSL = ast.literal_eval(
 if ENABLE_SSL:
     SECURE_SSL_REDIRECT = not DEBUG
 
-DEFAULT_FROM_EMAIL='demo@pata-store.ml'
+#DEFAULT_FROM_EMAIL='demo@pata-store.ml'
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 ORDER_FROM_EMAIL = os.getenv('ORDER_FROM_EMAIL', DEFAULT_FROM_EMAIL)
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
@@ -149,7 +154,8 @@ TEMPLATES = [{
         'string_if_invalid': '<< MISSING VARIABLE "%s" >>' if DEBUG else ''}}]
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY='1283bfjdk40984fj'
+#SECRET_KEY='1283bfjdk40984fj'
+SECRET_KEY = config('SECRET_KEY')
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -283,7 +289,8 @@ ACCOUNT_ACTIVATION_DAYS = 3
 
 LOGIN_REDIRECT_URL = 'home'
 
-GOOGLE_ANALYTICS_TRACKING_ID = 'UA-118468059-1'
+#GOOGLE_ANALYTICS_TRACKING_ID = 'UA-118468059-1'
+GOOGLE_ANALYTICS_TRACKING_ID = config('GOOGLE_ANALYTICS_TRACKING_ID')
 
 
 def get_host():
@@ -323,7 +330,8 @@ bootstrap4 = {
 
 TEST_RUNNER = ''
 
-ALLOWED_HOSTS=['127.0.0.1', '206.189.169.37', 'demo.pata-store.ml']
+#ALLOWED_HOSTS=['127.0.0.1', '206.189.169.37', 'demo.pata-store.ml']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv())
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
