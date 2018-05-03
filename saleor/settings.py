@@ -39,7 +39,7 @@ CACHES = {'default': django_cache_url.config()}
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://demo_store:demo_store@localhost:5432/demo_store',
+        default='postgres://demo_saleor:demo_saleor@localhost:5432/demo_saleor',
         conn_max_age=600)}
 
 
@@ -74,9 +74,10 @@ USE_TZ = True
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
-EMAIL_URL='smtp://sammiemwangi59@gmail.com:saram2010@smtp.gmail.com:587/?tls=True'
-SENDGRID_USERNAME = os.environ.get('SENDGRID_USERNAME')
-SENDGRID_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
+#EMAIL_URL='smtp://sammiemwangi59@gmail.com:saram2010@smtp.gmail.com:587/?tls=True'
+EMAIL_URL = os.environ.get('EMAIL_URL')
+SENDGRID_USERNAME = 'apikey'
+SENDGRID_PASSWORD = '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'
 if not EMAIL_URL and SENDGRID_USERNAME and SENDGRID_PASSWORD:
     EMAIL_URL = 'smtp://%s:%s@smtp.sendgrid.net:587/?tls=True' % (
         SENDGRID_USERNAME, SENDGRID_PASSWORD)
@@ -97,7 +98,7 @@ ENABLE_SSL = ast.literal_eval(
 if ENABLE_SSL:
     SECURE_SSL_REDIRECT = not DEBUG
 
-DEFAULT_FROM_EMAIL='sammiemwangi59@gmail.com'
+DEFAULT_FROM_EMAIL='demo@pata-store.ml'
 ORDER_FROM_EMAIL = os.getenv('ORDER_FROM_EMAIL', DEFAULT_FROM_EMAIL)
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
