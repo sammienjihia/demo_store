@@ -29,7 +29,6 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-#INTERNAL_IPS = ['206.189.169.37', '127.0.0.1']
 INTERNAL_IPS = config('INTERNAL_IPS',cast=Csv())
 
 # Some cloud providers like Heroku export REDIS_URL variable instead of CACHE_URL
@@ -76,11 +75,8 @@ USE_TZ = True
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
-#EMAIL_URL='smtp://sammiemwangi59@gmail.com:saram2010@smtp.gmail.com:587/?tls=True'
 EMAIL_URL = os.environ.get('EMAIL_URL')
-#SENDGRID_USERNAME = 'apikey'
 SENDGRID_USERNAME = config('SENDGRID_USERNAME')
-#SENDGRID_PASSWORD = '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'
 SENDGRID_PASSWORD = config('SENDGRID_PASSWORD')
 if not EMAIL_URL and SENDGRID_USERNAME and SENDGRID_PASSWORD:
     EMAIL_URL = 'smtp://%s:%s@smtp.sendgrid.net:587/?tls=True' % (
@@ -154,7 +150,6 @@ TEMPLATES = [{
         'string_if_invalid': '<< MISSING VARIABLE "%s" >>' if DEBUG else ''}}]
 
 # Make this unique, and don't share it with anybody.
-#SECRET_KEY='1283bfjdk40984fj'
 SECRET_KEY = config('SECRET_KEY')
 
 MIDDLEWARE = [
@@ -223,6 +218,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_celery_results',
     'impersonate',
+    'django_payments_cod',
     'phonenumber_field']
 
 if DEBUG:
@@ -303,13 +299,15 @@ PAYMENT_HOST = get_host
 PAYMENT_MODEL = 'order.Payment'
 
 PAYMENT_VARIANTS = {
-    'default': ('payments.dummy.DummyProvider', {})}
+    'dummy': ('payments.dummy.DummyProvider', {}),
+    'default': ('django_payments_cod.CODProvider', {})}
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 CHECKOUT_PAYMENT_CHOICES = [
-    ('default', 'Dummy provider')]
+    # ('default', 'Dummy provider'),
+    ('default', 'Cash On Delivery'), ('dummy', 'Dummy provider')]
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'}
@@ -330,7 +328,6 @@ bootstrap4 = {
 
 TEST_RUNNER = ''
 
-#ALLOWED_HOSTS=['127.0.0.1', '206.189.169.37', 'demo.pata-store.ml']
 ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv())
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
